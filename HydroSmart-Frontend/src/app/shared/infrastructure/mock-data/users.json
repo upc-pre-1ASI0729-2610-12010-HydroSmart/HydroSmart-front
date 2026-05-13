@@ -1,0 +1,38 @@
+[
+  {
+    "id": "usr-001",
+    "name": "Santiago",
+    "lastName": "Vela",
+    "email": "santiago.vela@email.com",
+    "password": "owner123",
+    "phone": "+51 987 654 321",
+    "role": "owner",
+    "address": {
+      "street": "Av. Javier Prado 1234",
+      "city": "Lima",
+      "district": "Miraflores",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-01-15T00:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "usr-002",
+    "name": "Arianna",
+    "lastName": "Flores",
+    "email": "arianna.flores@email.com",
+    "password": "tenant123",
+    "phone": "+51 912 345 678",
+    "role": "tenant",
+    "address": {
+      "street": "Calle Las Begonias 456, Dpto 3B",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-03-10T00:00:00Z",
+    "isActive": true
+  }
+]

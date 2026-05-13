@@ -1,0 +1,67 @@
+[
+  {
+    "id": "notif-001",
+    "userId": "usr-001",
+    "type": "alert",
+    "title": "¡Alerta! Consumo elevado",
+    "body": "Tu consumo de hoy superó los 900L. Verifica si dejaste algún grifo abierto.",
+    "priority": "urgent",
+    "isRead": false,
+    "createdAt": "2025-05-11T13:00:00Z",
+    "readAt": null,
+    "actionUrl": "/alerts",
+    "icon": "warning"
+  },
+  {
+    "id": "notif-002",
+    "userId": "usr-001",
+    "type": "tip",
+    "title": "Consejo de ahorro",
+    "body": "Usa el lavavajillas con carga completa. Ahorrarás hasta 15L por ciclo de lavado.",
+    "priority": "normal",
+    "isRead": false,
+    "createdAt": "2025-05-11T08:00:00Z",
+    "readAt": null,
+    "actionUrl": null,
+    "icon": "lightbulb"
+  },
+  {
+    "id": "notif-003",
+    "userId": "usr-001",
+    "type": "report",
+    "title": "Reporte semanal disponible",
+    "body": "Tu reporte de la semana del 05/05 al 11/05 está listo. Consumo total: 1,915L.",
+    "priority": "normal",
+    "isRead": true,
+    "createdAt": "2025-05-11T06:00:00Z",
+    "readAt": "2025-05-11T09:30:00Z",
+    "actionUrl": "/reports",
+    "icon": "description"
+  },
+  {
+    "id": "notif-004",
+    "userId": "usr-001",
+    "type": "achievement",
+    "title": "¡Logro desbloqueado!",
+    "body": "Redujiste tu consumo un 15% respecto al mes pasado. ¡Sigue así!",
+    "priority": "normal",
+    "isRead": true,
+    "createdAt": "2025-05-10T10:00:00Z",
+    "readAt": "2025-05-10T11:00:00Z",
+    "actionUrl": null,
+    "icon": "emoji_events"
+  },
+  {
+    "id": "notif-005",
+    "userId": "usr-001",
+    "type": "alert",
+    "title": "Posible fuga en jardín",
+    "body": "El sensor del jardín detecta un flujo continuo de 0.3 L/min. Revisa el sistema de riego.",
+    "priority": "high",
+    "isRead": false,
+    "createdAt": "2025-05-11T10:05:00Z",
+    "readAt": null,
+    "actionUrl": "/devices",
+    "icon": "water_damage"
+  }
+]
