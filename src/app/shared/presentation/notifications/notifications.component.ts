@@ -2,6 +2,7 @@ import { Component, inject, HostListener } from '@angular/core';
 import { NotificationService } from '../../application/notification.service';
 import { Suggestion } from '../../domain/notification.model';
 import { Router } from '@angular/router';
+import { TranslationService } from '../../application/i18n/translation.service';
 
 @Component({
   selector: 'app-notifications',
@@ -10,9 +11,9 @@ import { Router } from '@angular/router';
     <div class="notif-overlay" (click)="close()"></div>
     <div class="notif-panel" (click)="$event.stopPropagation()">
       <div class="panel-header">
-        <h2>Notificaciones</h2>
+        <h2>{{ i18n.t('notifications.title') }}</h2>
         @if (unreadCount() > 0) {
-          <button class="mark-all-btn" (click)="markAllRead()">Marcar todo como leído</button>
+          <button class="mark-all-btn" (click)="markAllRead()">{{ i18n.t('notifications.markAllRead') }}</button>
         }
       </div>
 
@@ -38,7 +39,7 @@ import { Router } from '@angular/router';
         } @empty {
           <div class="empty-state">
             <span class="material-icon">notifications_none</span>
-            <p>No hay notificaciones</p>
+            <p>{{ i18n.t('notifications.empty') }}</p>
           </div>
         }
       </div>
@@ -176,6 +177,7 @@ import { Router } from '@angular/router';
 export class NotificationsComponent {
   private notifService = inject(NotificationService);
   private router = inject(Router);
+  i18n = inject(TranslationService);
 
   notifications = this.notifService.notifications;
   unreadCount = this.notifService.unreadCount;

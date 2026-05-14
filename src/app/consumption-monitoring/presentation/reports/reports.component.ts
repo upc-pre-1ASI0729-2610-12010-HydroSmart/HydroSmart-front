@@ -9,6 +9,7 @@ import { SidebarComponent } from '../../../shared/presentation/components/sideba
 import { HeaderComponent } from '../../../shared/presentation/components/header/header.component';
 import { ConsumptionMonitoringService } from '../../application/services/consumption-monitoring.service';
 import { AuthService } from '../../../shared/application/auth.service';
+import { TranslationService } from '../../../shared/application/i18n/translation.service';
 
 Chart.register(...registerables);
 
@@ -20,25 +21,25 @@ Chart.register(...registerables);
     <div class="app-layout">
       <app-sidebar />
       <div class="main-content">
-        <app-header title="Reportes" subtitle="Análisis de consumo hídrico" />
+        <app-header [title]="i18n.t('reports.title')" [subtitle]="i18n.t('reports.subtitle')" />
 
         <div class="page-body">
           <!-- Summary row -->
           <div class="summary-row">
             <div class="summary-item">
-              <span class="s-label">Total del período</span>
+              <span class="s-label">{{ i18n.t('reports.periodTotal') }}</span>
               <span class="s-value">{{ report?.totalVolumeLiters | number }} L</span>
             </div>
             <div class="summary-item">
-              <span class="s-label">Promedio diario</span>
+              <span class="s-label">{{ i18n.t('reports.dailyAvg') }}</span>
               <span class="s-value">{{ report?.averageDailyVolumeLiters | number:'1.0-0' }} L/día</span>
             </div>
             <div class="summary-item">
-              <span class="s-label">Costo estimado</span>
+              <span class="s-label">{{ i18n.t('reports.estimatedCost') }}</span>
               <span class="s-value">S/. {{ report?.estimatedCostPEN | number:'1.2-2' }}</span>
             </div>
             <div class="summary-item">
-              <span class="s-label">Día pico</span>
+              <span class="s-label">{{ i18n.t('reports.peakDay') }}</span>
               <span class="s-value">{{ report?.peakDay ? formatPeakDay(report!.peakDay) : '—' }}</span>
             </div>
           </div>
@@ -46,7 +47,7 @@ Chart.register(...registerables);
           <!-- Charts Row -->
           <div class="charts-row">
             <div class="chart-card">
-              <h3>Ranking de Dispositivos</h3>
+              <h3>{{ i18n.t('reports.deviceRanking') }}</h3>
               <div class="chart-wrap">
                 <canvas #rankingChart></canvas>
               </div>
@@ -70,7 +71,7 @@ Chart.register(...registerables);
             </div>
 
             <div class="chart-card">
-              <h3>Promedio de Consumo Semanal</h3>
+              <h3>{{ i18n.t('reports.weeklyAvg') }}</h3>
               <div class="chart-wrap">
                 <canvas #weeklyChart></canvas>
               </div>
@@ -79,18 +80,18 @@ Chart.register(...registerables);
 
           <!-- Export Card -->
           <div class="card export-card">
-            <h3>Exportar Reporte</h3>
+            <h3>{{ i18n.t('reports.exportReport') }}</h3>
             <div class="export-form">
               <div class="form-group">
-                <label>Período</label>
+                <label>{{ i18n.t('reports.period') }}</label>
                 <select [(ngModel)]="exportPeriod">
-                  <option value="current">Mayo 2025 (actual)</option>
-                  <option value="last">Abril 2025</option>
-                  <option value="custom">Personalizado</option>
+                  <option value="current">{{ i18n.t('reports.current') }}</option>
+                  <option value="last">{{ i18n.t('reports.last') }}</option>
+                  <option value="custom">{{ i18n.t('reports.custom') }}</option>
                 </select>
               </div>
               <div class="form-group">
-                <label>Formato</label>
+                <label>{{ i18n.t('reports.format') }}</label>
                 <select [(ngModel)]="exportFormat">
                   <option value="pdf">PDF</option>
                   <option value="xlsx">Excel (XLSX)</option>
@@ -98,25 +99,25 @@ Chart.register(...registerables);
                 </select>
               </div>
               <div class="form-group">
-                <label>Incluir</label>
+                <label>{{ i18n.t('reports.include') }}</label>
                 <div class="checkbox-group">
                   <label class="chk-row">
                     <input type="checkbox" [(ngModel)]="includeCharts" />
-                    <span>Gráficos</span>
+                    <span>{{ i18n.t('reports.charts') }}</span>
                   </label>
                   <label class="chk-row">
                     <input type="checkbox" [(ngModel)]="includeAlerts" />
-                    <span>Alertas</span>
+                    <span>{{ i18n.t('reports.alerts') }}</span>
                   </label>
                   <label class="chk-row">
                     <input type="checkbox" [(ngModel)]="includeRecs" />
-                    <span>Recomendaciones</span>
+                    <span>{{ i18n.t('reports.recommendations') }}</span>
                   </label>
                 </div>
               </div>
               <button class="btn-export" (click)="exportReport()">
                 <span class="material-icon">download</span>
-                Generar reporte
+                {{ i18n.t('reports.generate') }}
               </button>
             </div>
             @if (exportMsg) {
@@ -225,6 +226,7 @@ export class ReportsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private monitoringSvc = inject(ConsumptionMonitoringService);
   private authSvc = inject(AuthService);
+  i18n = inject(TranslationService);
 
   private rankingChartInst?: Chart;
   private weeklyChartInst?: Chart;
@@ -247,9 +249,10 @@ export class ReportsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   exportReport(): void {
-    this.exportMsg = `Generando reporte ${this.exportFormat.toUpperCase()} para ${this.exportPeriod === 'current' ? 'Mayo 2025' : 'Abril 2025'}...`;
+    const periodLabel = this.exportPeriod === 'current' ? this.i18n.t('reports.current') : this.i18n.t('reports.last');
+    this.exportMsg = `${this.i18n.t('reports.generating')} ${this.exportFormat.toUpperCase()} ${this.i18n.t('reports.for')} ${periodLabel}...`;
     setTimeout(() => {
-      this.exportMsg = `¡Reporte ${this.exportFormat.toUpperCase()} generado exitosamente!`;
+      this.exportMsg = `¡Reporte ${this.exportFormat.toUpperCase()} ${this.i18n.t('reports.generated')}`;
       setTimeout(() => { this.exportMsg = ''; }, 3000);
     }, 1200);
   }
