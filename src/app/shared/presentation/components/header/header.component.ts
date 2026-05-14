@@ -1,6 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { NotificationService } from '../../../application/notification.service';
 import { NotificationsComponent } from '../../notifications/notifications.component';
+import { TranslationService } from '../../../application/i18n/translation.service';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,10 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
         }
       </div>
       <div class="topbar-right">
+        <button class="lang-toggle" (click)="toggleLang()" [title]="isEn() ? 'Switch to Spanish' : 'Cambiar a inglés'">
+          <span class="lang-flag">{{ isEn() ? '🇺🇸' : '🇪🇸' }}</span>
+          <span class="lang-code">{{ isEn() ? 'EN' : 'ES' }}</span>
+        </button>
         <button class="notif-btn" (click)="toggleNotifications()">
           <span class="material-icon">notifications</span>
           @if (unreadCount() > 0) {
@@ -61,6 +66,26 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
     }
 
     .topbar-right { display: flex; align-items: center; gap: 8px; }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--color-bg);
+      border: 1.5px solid var(--color-border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-primary);
+      transition: all 0.15s;
+    }
+    .lang-toggle:hover {
+      border-color: var(--color-accent);
+      background: #E8F7F1;
+    }
+    .lang-flag { font-size: 16px; line-height: 1; }
+    .lang-code { font-family: var(--font-family); font-size: 12px; }
 
     .notif-btn {
       position: relative;
@@ -109,9 +134,15 @@ export class HeaderComponent {
   @Input() subtitle = '';
 
   notifService = inject(NotificationService);
+  i18n = inject(TranslationService);
   unreadCount = this.notifService.unreadCount;
+  isEn = this.i18n.isEnglish;
 
   toggleNotifications(): void {
     this.notifService.togglePanel();
+  }
+
+  toggleLang(): void {
+    this.i18n.toggleLanguage();
   }
 }
