@@ -7,10 +7,8 @@
  * y SavingsOptimizationService (application layer).
  * Es delgado: sin reglas de negocio, sin lógica de dominio.
  */
-import {
-  Component, inject, AfterViewInit, OnDestroy,
-  ViewChild, ElementRef, OnInit
-} from '@angular/core';
+import { Component, inject, AfterViewInit, OnDestroy,
+  ViewChild, ElementRef, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
@@ -18,6 +16,7 @@ import { Chart, registerables } from 'chart.js';
 import { SidebarComponent } from '../../../shared/presentation/components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../../shared/presentation/components/header/header.component';
 import { AuthService } from '../../../shared/application/auth.service';
+import { TranslationService } from '../../../shared/application/i18n/translation.service';
 import { ConsumptionMonitoringService } from '../../application/services/consumption-monitoring.service';
 import { IncidentDetectionService } from '../../../incident-detection/application/services/incident-detection.service';
 import { SavingsOptimizationService } from '../../../savings-optimization/application/services/savings-optimization.service';
@@ -32,7 +31,7 @@ Chart.register(...registerables);
     <div class="app-layout">
       <app-sidebar />
       <div class="main-content">
-        <app-header title="Dashboard" [subtitle]="greeting" />
+        <app-header [title]="i18n.t('header.dashboard')" [subtitle]="greeting" />
 
         <div class="page-body">
           <!-- KPI Cards -->
@@ -43,7 +42,7 @@ Chart.register(...registerables);
               </div>
               <div class="kpi-data">
                 <span class="kpi-value">{{ summary?.totalVolumeLiters | number:'1.0-0' }} L</span>
-                <span class="kpi-label">Consumo mensual</span>
+                <span class="kpi-label">{{ i18n.t('dashboard.monthlyConsumption') }}</span>
               </div>
             </div>
 
@@ -57,7 +56,7 @@ Chart.register(...registerables);
                   [class.text-danger]="(summary?.variationPercent ?? 0) > 0">
                   {{ (summary?.variationPercent ?? 0) > 0 ? '+' : '' }}{{ summary?.variationPercent | number:'1.0-1' }}%
                 </span>
-                <span class="kpi-label">vs. mes anterior</span>
+                <span class="kpi-label">{{ i18n.t('dashboard.vsLastMonth') }}</span>
               </div>
             </div>
 
@@ -67,7 +66,7 @@ Chart.register(...registerables);
               </div>
               <div class="kpi-data">
                 <span class="kpi-value">{{ monitoringSvc.activeDeviceCount() }}</span>
-                <span class="kpi-label">Dispositivos activos</span>
+                <span class="kpi-label">{{ i18n.t('dashboard.activeDevices') }}</span>
               </div>
             </div>
 
@@ -77,7 +76,7 @@ Chart.register(...registerables);
               </div>
               <div class="kpi-data">
                 <span class="kpi-value">S/. {{ summary?.estimatedCostPEN | number:'1.2-2' }}</span>
-                <span class="kpi-label">Costo estimado</span>
+                <span class="kpi-label">{{ i18n.t('dashboard.estimatedCost') }}</span>
               </div>
             </div>
 
@@ -87,7 +86,7 @@ Chart.register(...registerables);
               </div>
               <div class="kpi-data">
                 <span class="kpi-value">{{ summary?.currentDayVolumeLiters }} L</span>
-                <span class="kpi-label">Consumo de hoy</span>
+                <span class="kpi-label">{{ i18n.t('dashboard.todayConsumption') }}</span>
               </div>
             </div>
           </div>
@@ -96,20 +95,20 @@ Chart.register(...registerables);
           <div class="charts-row">
             <div class="chart-card wide">
               <div class="chart-header">
-                <h3>Consumo Diario</h3>
-                <span class="chart-period">Mayo 2025</span>
+                <h3>{{ i18n.t('dashboard.dailyConsumption') }}</h3>
+                <span class="chart-period">{{ i18n.t('dashboard.may2025') }}</span>
               </div>
               <div class="chart-wrap"><canvas #lineChart></canvas></div>
             </div>
 
             <div class="chart-card">
-              <div class="chart-header"><h3>Por Categoría</h3></div>
+              <div class="chart-header"><h3>{{ i18n.t('dashboard.byCategory') }}</h3></div>
               <div class="chart-wrap donut-wrap"><canvas #donutChart></canvas></div>
               <div class="donut-legend">
                 @for (item of categoryLegend; track item.label) {
                   <div class="legend-item">
                     <span class="legend-dot" [style.background]="item.color"></span>
-                    <span>{{ item.label }}</span>
+                  <span>{{ i18n.t(item.label) }}</span>
                     <span class="legend-pct">{{ item.pct }}%</span>
                   </div>
                 }
@@ -122,7 +121,7 @@ Chart.register(...registerables);
             <!-- Incidents/Alerts -->
             <div class="card alerts-card">
               <div class="section-header">
-                <h3>Alertas Activas</h3>
+                <h3>{{ i18n.t('dashboard.activeAlerts') }}</h3>
                 @if (incidentSvc.unresolvedCount() > 0) {
                   <span class="badge-danger">{{ incidentSvc.unresolvedCount() }}</span>
                 }
@@ -138,7 +137,7 @@ Chart.register(...registerables);
               } @empty {
                 <div class="empty-alerts">
                   <span class="material-icon">check_circle</span>
-                  <p>Sin alertas activas</p>
+                  <p>{{ i18n.t('dashboard.noActiveAlerts') }}</p>
                 </div>
               }
             </div>
@@ -146,30 +145,30 @@ Chart.register(...registerables);
             <!-- Saving Goal -->
             <div class="card goal-card">
               <div class="section-header">
-                <h3>Meta de Ahorro</h3>
+                <h3>{{ i18n.t('dashboard.savingGoal') }}</h3>
                 @if (savingsSvc.activeGoal()) {
                   <span [class]="savingsSvc.activeGoal()!.isAchieved ? 'badge-success' : 'badge-warning'">
-                    {{ savingsSvc.activeGoal()!.isAchieved ? 'En meta' : 'En riesgo' }}
+                    {{ savingsSvc.activeGoal()!.isAchieved ? i18n.t('dashboard.onTarget') : i18n.t('dashboard.atRisk') }}
                   </span>
                 }
               </div>
               @if (savingsSvc.activeGoal(); as goal) {
                 <div class="goal-info">
                   <div class="goal-row">
-                    <span>Objetivo</span>
+                    <span>{{ i18n.t('dashboard.objective') }}</span>
                     <strong>{{ goal.savingTarget.targetVolume.liters | number }} L</strong>
                   </div>
                   <div class="goal-row">
-                    <span>Consumo actual</span>
+                    <span>{{ i18n.t('dashboard.currentConsumption') }}</span>
                     <strong [class.text-danger]="!goal.isAchieved">{{ goal.currentVolume.liters | number }} L</strong>
                   </div>
                   <div class="goal-row">
-                    <span>Presupuesto</span>
+                    <span>{{ i18n.t('dashboard.budget') }}</span>
                     <strong>S/. {{ goal.monthlyBudget.amount | number:'1.2-2' }}</strong>
                   </div>
                   <div class="progress-bar-wrap">
                     <div class="progress-label">
-                      <span>Ahorro logrado</span>
+                      <span>{{ i18n.t('dashboard.savingsAchieved') }}</span>
                       <span>{{ goal.progressPercent }}%</span>
                     </div>
                     <div class="progress-bar">
@@ -180,7 +179,7 @@ Chart.register(...registerables);
                     </div>
                   </div>
                   <div class="goal-recs">
-                    <p class="recs-title">Recomendaciones:</p>
+                    <p class="recs-title">{{ i18n.t('dashboard.recommendations') }}:</p>
                     @for (rec of goal.recommendations.slice(0, 2); track $index) {
                       <div class="rec-item">
                         <span class="material-icon">tips_and_updates</span>
@@ -190,15 +189,15 @@ Chart.register(...registerables);
                   </div>
                 </div>
               } @else {
-                <p class="no-goal">No hay meta activa este mes.</p>
+                <p class="no-goal">{{ i18n.t('dashboard.noActiveGoal') }}</p>
               }
             </div>
 
             <!-- Devices mini -->
             <div class="card devices-card">
               <div class="section-header">
-                <h3>Mis Dispositivos</h3>
-                <a routerLink="/devices" class="view-all">Ver todos</a>
+                <h3>{{ i18n.t('dashboard.myDevices') }}</h3>
+                <a routerLink="/devices" class="view-all">{{ i18n.t('dashboard.viewAll') }}</a>
               </div>
               @for (sensor of monitoringSvc.sensors().slice(0, 3); track sensor.id) {
                 <div class="device-row">
@@ -226,6 +225,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly incidentSvc = inject(IncidentDetectionService);
   protected readonly savingsSvc = inject(SavingsOptimizationService);
   private readonly authSvc = inject(AuthService);
+  i18n = inject(TranslationService);
 
   private lineChartInstance?: Chart;
   private donutChartInstance?: Chart;
@@ -235,16 +235,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   get greeting(): string {
     const h = new Date().getHours();
     const name = this.authSvc.currentUser()?.name ?? '';
-    if (h < 12) return `Buenos días, ${name}`;
-    if (h < 18) return `Buenas tardes, ${name}`;
-    return `Buenas noches, ${name}`;
+    if (h < 12) return `${this.i18n.t('greeting.morning')}, ${name}`;
+    if (h < 18) return `${this.i18n.t('greeting.afternoon')}, ${name}`;
+    return `${this.i18n.t('greeting.evening')}, ${name}`;
   }
 
   categoryLegend = [
-    { label: 'Baño', color: '#4AB787', pct: 40 },
-    { label: 'Cocina', color: '#23707D', pct: 30 },
-    { label: 'Jardín', color: '#F39C12', pct: 20 },
-    { label: 'Lavandería', color: '#B7B7B7', pct: 10 }
+    { label: 'category.bathroom', color: '#4AB787', pct: 40 },
+    { label: 'category.kitchen', color: '#23707D', pct: 30 },
+    { label: 'category.garden', color: '#F39C12', pct: 20 },
+    { label: 'category.laundry', color: '#B7B7B7', pct: 10 }
   ];
 
   ngOnInit(): void {
@@ -296,7 +296,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.donutChartInstance = new Chart(this.donutChartRef.nativeElement, {
       type: 'doughnut',
       data: {
-        labels: ['Baño', 'Cocina', 'Jardín', 'Lavandería'],
+        labels: [this.i18n.t('category.bathroom'), this.i18n.t('category.kitchen'), this.i18n.t('category.garden'), this.i18n.t('category.laundry')],
         datasets: [{ data: [40, 30, 20, 10], backgroundColor: ['#4AB787', '#23707D', '#F39C12', '#B7B7B7'], borderWidth: 0 }]
       },
       options: {
