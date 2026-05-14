@@ -34,6 +34,9 @@ import { CheckTenantConsumptionUseCase } from './rental-management/application/u
 import { GenerateConsumptionPenaltyUseCase } from './rental-management/application/use-cases/generate-consumption-penalty.use-case';
 import { RentalManagementService } from './rental-management/application/services/rental-management.service';
 
+// i18n
+import { provideI18n } from './shared/application/i18n/i18n.provider';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -66,5 +69,8 @@ export const appConfig: ApplicationConfig = {
     CheckTenantConsumptionUseCase,
     GenerateConsumptionPenaltyUseCase,
     RentalManagementService,
+
+    // i18n
+    ...provideI18n(),
   ],
 };
