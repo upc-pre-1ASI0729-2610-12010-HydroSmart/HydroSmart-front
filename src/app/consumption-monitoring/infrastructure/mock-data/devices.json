@@ -1,0 +1,92 @@
+[
+  {
+    "id": "dev-001",
+    "name": "Medidor Principal",
+    "type": "smart-meter",
+    "location": "Entrada Principal",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:32:00Z",
+    "installationDate": "2024-01-20T00:00:00Z",
+    "currentFlow": 2.4,
+    "totalConsumption": 12500,
+    "userId": "usr-001",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": true,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": true,
+      "sendMonthlyReports": true,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": true
+    },
+    "alertHistory": [
+      {
+        "id": "ALT-001",
+        "deviceId": "dev-001",
+        "type": "anomaly",
+        "message": "Consumo 280% por encima del promedio diario",
+        "severity": "high",
+        "resolved": true,
+        "createdAt": "2025-05-08T03:15:00Z",
+        "resolvedAt": "2025-05-08T08:30:00Z"
+      }
+    ]
+  },
+  {
+    "id": "dev-002",
+    "name": "Sensor Jardín",
+    "type": "flow-sensor",
+    "location": "Jardín Trasero",
+    "status": "warning",
+    "lastActiveAt": "2025-05-11T12:10:00Z",
+    "installationDate": "2024-02-05T00:00:00Z",
+    "currentFlow": 0.3,
+    "totalConsumption": 4200,
+    "userId": "usr-001",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": [
+      {
+        "id": "ALT-002",
+        "deviceId": "dev-002",
+        "type": "leak",
+        "message": "Posible fuga detectada — flujo residual de 0.3 L/min",
+        "severity": "high",
+        "resolved": false,
+        "createdAt": "2025-05-11T10:05:00Z"
+      }
+    ]
+  },
+  {
+    "id": "dev-003",
+    "name": "Detector Cocina",
+    "type": "leak-detector",
+    "location": "Cocina",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:45:00Z",
+    "installationDate": "2024-03-01T00:00:00Z",
+    "currentFlow": 1.1,
+    "totalConsumption": 3100,
+    "userId": "usr-001",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": true,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": true,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  }
+]

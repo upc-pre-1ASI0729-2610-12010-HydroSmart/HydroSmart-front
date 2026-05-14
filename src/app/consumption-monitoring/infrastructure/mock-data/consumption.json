@@ -1,0 +1,26 @@
+{
+  "userId": "usr-001",
+  "monthlyTotal": 8000,
+  "previousMonthTotal": 9412,
+  "estimatedCostPEN": 45.30,
+  "dailyReadings": [
+    { "date": "2025-05-01", "volume": 280, "deviceId": "dev-001" },
+    { "date": "2025-05-02", "volume": 265, "deviceId": "dev-001" },
+    { "date": "2025-05-03", "volume": 290, "deviceId": "dev-001" },
+    { "date": "2025-05-04", "volume": 310, "deviceId": "dev-001" },
+    { "date": "2025-05-05", "volume": 275, "deviceId": "dev-001" },
+    { "date": "2025-05-06", "volume": 920, "deviceId": "dev-001" },
+    { "date": "2025-05-07", "volume": 285, "deviceId": "dev-001" },
+    { "date": "2025-05-08", "volume": 300, "deviceId": "dev-001" },
+    { "date": "2025-05-09", "volume": 260, "deviceId": "dev-001" },
+    { "date": "2025-05-10", "volume": 295, "deviceId": "dev-001" },
+    { "date": "2025-05-11", "volume": 265, "deviceId": "dev-001" }
+  ],
+  "categoryBreakdown": [
+    { "category": "bathroom", "volume": 3200, "percentage": 40 },
+    { "category": "kitchen", "volume": 2400, "percentage": 30 },
+    { "category": "garden", "volume": 1600, "percentage": 20 },
+    { "category": "laundry", "volume": 800, "percentage": 10 }
+  ],
+  "currentDayVolume": 265
+}
