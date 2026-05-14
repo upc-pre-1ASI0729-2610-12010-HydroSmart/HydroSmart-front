@@ -1,0 +1,26 @@
+[
+  {
+    "id": "tc-001",
+    "ownerId": "usr-001",
+    "period": "2025-05",
+    "rentalUnit": {
+      "id": "unit-001",
+      "ownerId": "usr-001",
+      "address": "Av. Javier Prado 1234",
+      "unitNumber": "3B",
+      "allowance": {
+        "monthlyLimitLiters": 6000,
+        "penaltyPerExcessLiter": 0.008,
+        "currency": "PEN"
+      }
+    },
+    "tenant": {
+      "id": "usr-002",
+      "rentalUnitId": "unit-001",
+      "name": "Arianna Flores",
+      "email": "arianna.flores@email.com",
+      "phone": "+51 912 345 678",
+      "currentMonthConsumptionLiters": 7200
+    }
+  }
+]
