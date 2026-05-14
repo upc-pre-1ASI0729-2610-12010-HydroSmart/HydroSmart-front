@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../application/auth.service';
+import { TranslationService } from '../../../application/i18n/translation.service';
 import { Router } from '@angular/router';
 
 interface NavItem {
@@ -24,7 +25,7 @@ interface NavItem {
         </div>
         <div class="logo-text">
           <span class="logo-name">HydroSmart</span>
-          <span class="logo-tagline">Gestión de Agua</span>
+          <span class="logo-tagline">{{ i18n.t('sidebar.waterManagement') }}</span>
         </div>
       </div>
 
@@ -37,7 +38,7 @@ interface NavItem {
                 routerLinkActive="active"
                 class="nav-link">
                 <span class="nav-icon material-icon">{{ item.icon }}</span>
-                <span class="nav-label">{{ item.label }}</span>
+                <span class="nav-label">{{ i18n.t(item.label) }}</span>
               </a>
             </li>
           }
@@ -227,13 +228,14 @@ interface NavItem {
 export class SidebarComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
+  i18n = inject(TranslationService);
 
   navItems: NavItem[] = [
-    { label: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
-    { label: 'Perfil', route: '/profile', icon: 'person' },
-    { label: 'Dispositivos', route: '/devices', icon: 'sensors' },
-    { label: 'Reportes', route: '/reports', icon: 'bar_chart' },
-    { label: 'Configuración', route: '/settings', icon: 'settings' },
+    { label: 'sidebar.dashboard', route: '/dashboard', icon: 'dashboard' },
+    { label: 'sidebar.profile', route: '/profile', icon: 'person' },
+    { label: 'sidebar.devices', route: '/devices', icon: 'sensors' },
+    { label: 'sidebar.reports', route: '/reports', icon: 'bar_chart' },
+    { label: 'sidebar.settings', route: '/settings', icon: 'settings' },
   ];
 
   get userName(): string {
@@ -246,7 +248,7 @@ export class SidebarComponent {
 
   get userRole(): string {
     const role = this.auth.currentUser()?.role;
-    return role === 'owner' ? 'Propietario' : 'Inquilino';
+    return role === 'owner' ? this.i18n.t('sidebar.owner') : this.i18n.t('sidebar.tenant');
   }
 
   logout(): void {

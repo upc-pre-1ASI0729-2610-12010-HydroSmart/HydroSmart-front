@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../application/auth.service';
+import { TranslationService } from '../../../application/i18n/translation.service';
 
 @Component({
   selector: 'app-login',
@@ -19,24 +20,24 @@ import { AuthService } from '../../../application/auth.service';
             </svg>
           </div>
           <h1 class="brand-name">HydroSmart</h1>
-          <p class="brand-tagline">Gestión inteligente de consumo de agua</p>
+          <p class="brand-tagline">{{ i18n.t('login.smartWaterManagement') }}</p>
         </div>
 
         <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
           <div class="form-group">
-            <label for="email">Correo electrónico</label>
+            <label for="email">{{ i18n.t('login.email') }}</label>
             <input
               id="email"
               type="email"
               [(ngModel)]="email"
               name="email"
-              placeholder="nombre@email.com"
+              placeholder="{{ i18n.t('login.emailPlaceholder') }}"
               required
               autocomplete="email" />
           </div>
 
           <div class="form-group">
-            <label for="password">Contraseña</label>
+            <label for="password">{{ i18n.t('login.password') }}</label>
             <div class="input-wrap">
               <input
                 id="password"
@@ -63,18 +64,18 @@ import { AuthService } from '../../../application/auth.service';
             @if (loading()) {
               <span>Iniciando sesión...</span>
             } @else {
-              <span>Iniciar sesión</span>
+              <span>{{ i18n.t('login.submit') }}</span>
             }
           </button>
         </form>
 
         <div class="demo-hints">
-          <p class="demo-title">Cuentas de demostración:</p>
+          <p class="demo-title">{{ i18n.t('login.demoAccounts') }}</p>
           <button class="demo-btn" (click)="fillDemo('owner')">
-            Propietario — santiago.vela&#64;email.com
+            {{ i18n.t('login.owner') }} — santiago.vela&#64;email.com
           </button>
           <button class="demo-btn" (click)="fillDemo('tenant')">
-            Inquilino — arianna.flores&#64;email.com
+            {{ i18n.t('login.tenant') }} — arianna.flores&#64;email.com
           </button>
         </div>
       </div>
@@ -237,6 +238,7 @@ import { AuthService } from '../../../application/auth.service';
 export class LoginComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
+  i18n = inject(TranslationService);
 
   email = '';
   password = '';
@@ -257,7 +259,7 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (!this.email || !this.password) {
-      this.errorMsg.set('Por favor completa todos los campos.');
+      this.errorMsg.set(this.i18n.t('login.fillAllFields'));
       return;
     }
 
@@ -271,7 +273,7 @@ export class LoginComponent {
       if (result.success) {
         this.router.navigate(['/dashboard']);
       } else {
-        this.errorMsg.set(result.error ?? 'Error al iniciar sesión.');
+        this.errorMsg.set(result.error ?? this.i18n.t('login.loginError'));
       }
     }, 600);
   }
