@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../../../shared/presentation/components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../../shared/presentation/components/header/header.component';
 import { NotificationService } from '../../../shared/application/notification.service';
+import { TranslationService } from '../../../shared/application/i18n/translation.service';
 
 @Component({
   selector: 'app-settings',
@@ -12,7 +13,7 @@ import { NotificationService } from '../../../shared/application/notification.se
     <div class="app-layout">
       <app-sidebar />
       <div class="main-content">
-        <app-header title="Configuración" subtitle="Gestiona tus preferencias de la aplicación" />
+        <app-header [title]="i18n.t('settings.title')" [subtitle]="i18n.t('settings.subtitle')" />
 
         <div class="page-body">
           <div class="settings-grid">
@@ -21,15 +22,15 @@ import { NotificationService } from '../../../shared/application/notification.se
               <div class="card-section-header">
                 <span class="material-icon section-icon green">eco</span>
                 <div>
-                  <h3>Modo de Ahorro Automático</h3>
-                  <p>Configura cómo HydroSmart optimiza tu consumo</p>
+                  <h3>{{ i18n.t('settings.savingMode') }}</h3>
+                  <p>{{ i18n.t('settings.savingModeDesc') }}</p>
                 </div>
               </div>
               <div class="toggle-list">
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Modo ahorro activo</span>
-                    <span class="toggle-desc">Aplica recomendaciones automáticamente durante horas de bajo consumo</span>
+                    <span class="toggle-label">{{ i18n.t('settings.savingActive') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.savingActiveDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="savingMode" />
@@ -38,8 +39,8 @@ import { NotificationService } from '../../../shared/application/notification.se
                 </div>
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Corte automático ante fugas</span>
-                    <span class="toggle-desc">Cierra la válvula principal si se detecta una fuga mayor a 1 L/min</span>
+                    <span class="toggle-label">{{ i18n.t('settings.autoCutoff') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.autoCutoffDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="autoCutoff" />
@@ -48,8 +49,8 @@ import { NotificationService } from '../../../shared/application/notification.se
                 </div>
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Optimización de horario de riego</span>
-                    <span class="toggle-desc">Sugiere el mejor horario de riego para reducir evaporación</span>
+                    <span class="toggle-label">{{ i18n.t('settings.irrigationOpt') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.irrigationOptDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="irrigationOpt" />
@@ -64,15 +65,15 @@ import { NotificationService } from '../../../shared/application/notification.se
               <div class="card-section-header">
                 <span class="material-icon section-icon blue">notifications_active</span>
                 <div>
-                  <h3>Notificaciones y Alertas</h3>
-                  <p>Controla qué notificaciones recibes y cómo</p>
+                  <h3>{{ i18n.t('settings.notifAlerts') }}</h3>
+                  <p>{{ i18n.t('settings.notifAlertsDesc') }}</p>
                 </div>
               </div>
               <div class="toggle-list">
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Notificaciones push</span>
-                    <span class="toggle-desc">Recibe alertas en tiempo real en el navegador</span>
+                    <span class="toggle-label">{{ i18n.t('settings.pushNotif') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.pushNotifDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="notifSettings.enablePushNotifications"
@@ -82,8 +83,8 @@ import { NotificationService } from '../../../shared/application/notification.se
                 </div>
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Alertas de fuga</span>
-                    <span class="toggle-desc">Notificación inmediata ante cualquier fuga detectada</span>
+                    <span class="toggle-label">{{ i18n.t('settings.leakAlert') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.leakAlertDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="notifSettings.alertOnLeak"
@@ -93,8 +94,8 @@ import { NotificationService } from '../../../shared/application/notification.se
                 </div>
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Alertas de consumo anómalo</span>
-                    <span class="toggle-desc">Te avisa cuando el consumo supera 3× el promedio diario</span>
+                    <span class="toggle-label">{{ i18n.t('settings.anomalyAlert') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.anomalyAlertDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="notifSettings.alertOnAnomaly"
@@ -104,8 +105,8 @@ import { NotificationService } from '../../../shared/application/notification.se
                 </div>
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Alerta de umbral excedido</span>
-                    <span class="toggle-desc">Notificación cuando tu meta mensual está en riesgo</span>
+                    <span class="toggle-label">{{ i18n.t('settings.thresholdAlert') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.thresholdAlertDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="notifSettings.alertOnThresholdExceeded"
@@ -121,15 +122,15 @@ import { NotificationService } from '../../../shared/application/notification.se
               <div class="card-section-header">
                 <span class="material-icon section-icon teal">bar_chart</span>
                 <div>
-                  <h3>Reportes Personalizados</h3>
-                  <p>Configura la frecuencia de tus reportes automáticos</p>
+                  <h3>{{ i18n.t('settings.customReports') }}</h3>
+                  <p>{{ i18n.t('settings.customReportsDesc') }}</p>
                 </div>
               </div>
               <div class="toggle-list">
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Reporte semanal</span>
-                    <span class="toggle-desc">Recibe un resumen de tu consumo cada lunes</span>
+                    <span class="toggle-label">{{ i18n.t('settings.weeklyReport') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.weeklyReportDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="notifSettings.weeklyReportEnabled"
@@ -139,8 +140,8 @@ import { NotificationService } from '../../../shared/application/notification.se
                 </div>
                 <div class="toggle-row">
                   <div class="toggle-info">
-                    <span class="toggle-label">Reporte mensual</span>
-                    <span class="toggle-desc">Análisis detallado el primer día de cada mes</span>
+                    <span class="toggle-label">{{ i18n.t('settings.monthlyReport') }}</span>
+                    <span class="toggle-desc">{{ i18n.t('settings.monthlyReportDesc') }}</span>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" [(ngModel)]="notifSettings.monthlyReportEnabled"
@@ -150,10 +151,10 @@ import { NotificationService } from '../../../shared/application/notification.se
                 </div>
               </div>
               <div class="quiet-hours">
-                <span class="toggle-label">Horas de silencio</span>
+                <span class="toggle-label">{{ i18n.t('settings.quietHours') }}</span>
                 <div class="hours-row">
                   <input type="time" [(ngModel)]="notifSettings.quietHoursStart" />
-                  <span>a</span>
+                  <span>{{ i18n.t('settings.to') }}</span>
                   <input type="time" [(ngModel)]="notifSettings.quietHoursEnd" />
                 </div>
               </div>
@@ -164,29 +165,29 @@ import { NotificationService } from '../../../shared/application/notification.se
               <div class="card-section-header">
                 <span class="material-icon section-icon orange">help_outline</span>
                 <div>
-                  <h3>Ayuda y Soporte</h3>
-                  <p>Recursos y asistencia para el uso de HydroSmart</p>
+                  <h3>{{ i18n.t('settings.helpSupport') }}</h3>
+                  <p>{{ i18n.t('settings.helpSupportDesc') }}</p>
                 </div>
               </div>
               <div class="link-list">
                 <button class="link-row">
                   <span class="material-icon">menu_book</span>
-                  <span>Guía de usuario</span>
+                  <span>{{ i18n.t('settings.userGuide') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
                 <button class="link-row">
                   <span class="material-icon">support_agent</span>
-                  <span>Contactar soporte técnico</span>
+                  <span>{{ i18n.t('settings.contactSupport') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
                 <button class="link-row">
                   <span class="material-icon">video_library</span>
-                  <span>Tutoriales en video</span>
+                  <span>{{ i18n.t('settings.videoTutorials') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
                 <button class="link-row">
                   <span class="material-icon">bug_report</span>
-                  <span>Reportar un problema</span>
+                  <span>{{ i18n.t('settings.reportProblem') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
               </div>
@@ -197,29 +198,29 @@ import { NotificationService } from '../../../shared/application/notification.se
               <div class="card-section-header">
                 <span class="material-icon section-icon red">security</span>
                 <div>
-                  <h3>Seguridad y Privacidad</h3>
-                  <p>Gestiona el acceso y la protección de tus datos</p>
+                  <h3>{{ i18n.t('settings.securityPrivacy') }}</h3>
+                  <p>{{ i18n.t('settings.securityDesc') }}</p>
                 </div>
               </div>
               <div class="link-list">
                 <button class="link-row">
                   <span class="material-icon">lock</span>
-                  <span>Cambiar contraseña</span>
+                  <span>{{ i18n.t('settings.changePassword') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
                 <button class="link-row">
                   <span class="material-icon">devices</span>
-                  <span>Sesiones activas</span>
+                  <span>{{ i18n.t('settings.activeSessions') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
                 <button class="link-row">
                   <span class="material-icon">download</span>
-                  <span>Descargar mis datos</span>
+                  <span>{{ i18n.t('settings.downloadData') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
                 <button class="link-row danger-link">
                   <span class="material-icon">delete_forever</span>
-                  <span>Eliminar cuenta</span>
+                  <span>{{ i18n.t('settings.deleteAccount') }}</span>
                   <span class="material-icon arrow">chevron_right</span>
                 </button>
               </div>
@@ -229,7 +230,7 @@ import { NotificationService } from '../../../shared/application/notification.se
           @if (saveConfirm()) {
             <div class="save-toast">
               <span class="material-icon">check_circle</span>
-              Configuración guardada.
+              {{ i18n.t('settings.saved') }}
             </div>
           }
         </div>
@@ -396,6 +397,7 @@ import { NotificationService } from '../../../shared/application/notification.se
 })
 export class SettingsComponent {
   private notifSvc = inject(NotificationService);
+  i18n = inject(TranslationService);
 
   notifSettings = { ...this.notifSvc.settings() };
   savingMode = true;

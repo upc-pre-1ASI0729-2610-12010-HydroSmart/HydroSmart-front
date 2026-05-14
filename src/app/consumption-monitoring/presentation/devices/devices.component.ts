@@ -4,37 +4,39 @@ import { SidebarComponent } from '../../../shared/presentation/components/sideba
 import { HeaderComponent } from '../../../shared/presentation/components/header/header.component';
 import { ConsumptionMonitoringService } from '../../application/services/consumption-monitoring.service';
 import { IoTSensor, SensorMonitoringPreferences } from '../../domain/entities/iot-sensor.entity';
+import { LowerCasePipe } from '@angular/common';
 import { AuthService } from '../../../shared/application/auth.service';
+import { TranslationService } from '../../../shared/application/i18n/translation.service';
 
 @Component({
   selector: 'app-devices',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, FormsModule],
+  imports: [SidebarComponent, HeaderComponent, FormsModule, LowerCasePipe],
   template: `
     <div class="app-layout">
       <app-sidebar />
       <div class="main-content">
-        <app-header title="Dispositivos" subtitle="Gestiona tus sensores IoT" />
+        <app-header [title]="i18n.t('devices.title')" [subtitle]="i18n.t('devices.subtitle')" />
 
         <div class="page-body">
           <!-- Device Table -->
           <div class="card">
             <div class="table-header">
-              <h3>Mis Dispositivos</h3>
+              <h3>{{ i18n.t('devices.myDevices') }}</h3>
               <div class="table-actions">
-                <span class="total-badge">{{ devices().length }} dispositivos</span>
+                <span class="total-badge">{{ devices().length }} {{ i18n.t('devices.myDevices') | lowercase }}</span>
               </div>
             </div>
 
             <table class="devices-table">
               <thead>
                 <tr>
-                  <th>Dispositivo</th>
-                  <th>Estado</th>
-                  <th>Última actividad</th>
-                  <th>Historial de alertas</th>
-                  <th>Flujo actual</th>
-                  <th>Acciones</th>
+                  <th>{{ i18n.t('devices.device') }}</th>
+                  <th>{{ i18n.t('devices.status') }}</th>
+                  <th>{{ i18n.t('devices.lastActivity') }}</th>
+                  <th>{{ i18n.t('devices.alertHistory') }}</th>
+                  <th>{{ i18n.t('devices.currentFlow') }}</th>
+                  <th>{{ i18n.t('devices.actions') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -60,21 +62,21 @@ import { AuthService } from '../../../shared/application/auth.service';
                     <td class="cell-muted">{{ formatDate(sensor.lastActiveAt) }}</td>
                     <td>
                       @if (sensor.unresolvedAlertCount > 0) {
-                        <span class="alert-count danger">{{ sensor.unresolvedAlertCount }} alerta{{ sensor.unresolvedAlertCount > 1 ? 's' : '' }}</span>
+                        <span class="alert-count danger">{{ sensor.unresolvedAlertCount }} {{ sensor.unresolvedAlertCount > 1 ? i18n.t('devices.alerts') : i18n.t('devices.alert') }}</span>
                       } @else {
-                        <span class="alert-count ok">Sin alertas</span>
+                        <span class="alert-count ok">{{ i18n.t('devices.noAlerts') }}</span>
                       }
                     </td>
                     <td class="cell-flow">{{ sensor.currentFlowLPM }} L/min</td>
                     <td>
                       <div class="row-actions">
-                        <button class="action-btn" (click)="openPreferences(sensor)" title="Preferencias">
+                        <button class="action-btn" (click)="openPreferences(sensor)" [title]="i18n.t('devices.preferences')">
                           <span class="material-icon">settings</span>
                         </button>
                         <button class="action-btn"
                           [class.danger-btn]="sensor.status === 'active'"
                           (click)="toggleDevice(sensor)"
-                          [title]="sensor.status === 'active' ? 'Desactivar' : 'Activar'">
+                          [title]="sensor.status === 'active' ? i18n.t('devices.deactivate') : i18n.t('devices.activate')">
                           <span class="material-icon">{{ sensor.status === 'active' ? 'toggle_on' : 'toggle_off' }}</span>
                         </button>
                       </div>
@@ -91,7 +93,7 @@ import { AuthService } from '../../../shared/application/auth.service';
               <div class="modal-card" (click)="$event.stopPropagation()">
                 <div class="modal-header">
                   <div>
-                    <h3>Preferencias de Monitoreo</h3>
+                    <h3>{{ i18n.t('devices.monitoringPrefs') }}</h3>
                     <span class="modal-sub">{{ selectedDevice()!.name }} — {{ selectedDevice()!.location }}</span>
                   </div>
                   <button class="close-btn" (click)="closePreferences()">
@@ -101,53 +103,53 @@ import { AuthService } from '../../../shared/application/auth.service';
 
                 <div class="prefs-grid">
                   <div class="pref-group">
-                    <h4>Detección</h4>
+                    <h4>{{ i18n.t('devices.detection') }}</h4>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.detectLeaks" />
-                      <span>Detectar fugas automáticamente</span>
+                      <span>{{ i18n.t('devices.detectLeaks') }}</span>
                     </label>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.alertOnHighPressure" />
-                      <span>Alertar ante alta presión</span>
+                      <span>{{ i18n.t('devices.alertHighPressure') }}</span>
                     </label>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.sendAlertsOnAnomaly" />
-                      <span>Alertar en consumo anómalo</span>
+                      <span>{{ i18n.t('devices.alertAnomaly') }}</span>
                     </label>
                   </div>
 
                   <div class="pref-group">
-                    <h4>Seguimiento</h4>
+                    <h4>{{ i18n.t('devices.tracking') }}</h4>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.trackDailyConsumption" />
-                      <span>Registro diario de consumo</span>
+                      <span>{{ i18n.t('devices.trackDaily') }}</span>
                     </label>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.trackMonthlyConsumption" />
-                      <span>Registro mensual de consumo</span>
+                      <span>{{ i18n.t('devices.trackMonthly') }}</span>
                     </label>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.enableEnergyTracking" />
-                      <span>Seguimiento de energía</span>
+                      <span>{{ i18n.t('devices.energyTracking') }}</span>
                     </label>
                   </div>
 
                   <div class="pref-group">
-                    <h4>Reportes</h4>
+                    <h4>{{ i18n.t('devices.reports') }}</h4>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.sendWeeklyReports" />
-                      <span>Reporte semanal</span>
+                      <span>{{ i18n.t('devices.weeklyReport') }}</span>
                     </label>
                     <label class="pref-row">
                       <input type="checkbox" [(ngModel)]="editPrefs.sendMonthlyReports" />
-                      <span>Reporte mensual</span>
+                      <span>{{ i18n.t('devices.monthlyReport') }}</span>
                     </label>
                   </div>
                 </div>
 
                 <div class="modal-footer">
-                  <button class="btn-cancel" (click)="closePreferences()">Cancelar</button>
-                  <button class="btn-save" (click)="savePreferences()">Guardar preferencias</button>
+                  <button class="btn-cancel" (click)="closePreferences()">{{ i18n.t('devices.cancel') }}</button>
+                  <button class="btn-save" (click)="savePreferences()">{{ i18n.t('devices.savePrefs') }}</button>
                 </div>
               </div>
             </div>
@@ -373,6 +375,7 @@ import { AuthService } from '../../../shared/application/auth.service';
 export class DevicesComponent implements OnInit {
   private monitoringSvc = inject(ConsumptionMonitoringService);
   private authSvc = inject(AuthService);
+  i18n = inject(TranslationService);
 
   devices = this.monitoringSvc.sensors;
   selectedDevice = signal<IoTSensor | null>(null);
@@ -383,10 +386,10 @@ export class DevicesComponent implements OnInit {
   }
 
   getStatusLabel(status: string): string {
-    const labels: Record<string, string> = {
-      active: 'Activo', warning: 'Alerta', inactive: 'Inactivo', error: 'Error'
+    const keyMap: Record<string, string> = {
+      active: 'devices.active', warning: 'devices.warning', inactive: 'devices.inactive', error: 'devices.error'
     };
-    return labels[status] ?? status;
+    return this.i18n.t(keyMap[status] ?? status);
   }
 
   getDeviceIcon(sensor: IoTSensor): string {

@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { AuthService } from '../../application/auth.service';
+import { TranslationService } from '../../application/i18n/translation.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,7 @@ import { AuthService } from '../../application/auth.service';
     <div class="app-layout">
       <app-sidebar />
       <div class="main-content">
-        <app-header title="Perfil" subtitle="Gestiona tu información personal" />
+        <app-header [title]="i18n.t('profile.title')" [subtitle]="i18n.t('profile.subtitle')" />
 
         <div class="page-body">
           <div class="profile-grid">
@@ -24,23 +25,23 @@ import { AuthService } from '../../application/auth.service';
               <p class="email-display">{{ form.email }}</p>
               <button class="btn-change-photo">
                 <span class="material-icon">photo_camera</span>
-                Cambiar foto
+                {{ i18n.t('profile.changePhoto') }}
               </button>
 
               <div class="stats-mini">
                 <div class="stat-item">
                   <span class="stat-val">3</span>
-                  <span class="stat-lbl">Dispositivos</span>
+                  <span class="stat-lbl">{{ i18n.t('profile.devices') }}</span>
                 </div>
                 <div class="stat-sep"></div>
                 <div class="stat-item">
                   <span class="stat-val">8,000</span>
-                  <span class="stat-lbl">Litros este mes</span>
+                  <span class="stat-lbl">{{ i18n.t('profile.litersThisMonth') }}</span>
                 </div>
                 <div class="stat-sep"></div>
                 <div class="stat-item">
                   <span class="stat-val">-15%</span>
-                  <span class="stat-lbl">vs. mes anterior</span>
+                  <span class="stat-lbl">{{ i18n.t('dashboard.vsLastMonth') }}</span>
                 </div>
               </div>
             </div>
@@ -48,56 +49,56 @@ import { AuthService } from '../../application/auth.service';
             <!-- Info Form Card -->
             <div class="card info-card">
               <div class="card-title-row">
-                <h3>Información Personal</h3>
+                <h3>{{ i18n.t('profile.personalInfo') }}</h3>
                 @if (!editing()) {
                   <button class="btn-edit" (click)="startEdit()">
-                    <span class="material-icon">edit</span> Editar
+                    <span class="material-icon">edit</span> {{ i18n.t('profile.edit') }}
                   </button>
                 }
               </div>
 
               <div class="form-grid">
                 <div class="form-group">
-                  <label>Nombre</label>
+                  <label>{{ i18n.t('profile.name') }}</label>
                   <input [(ngModel)]="form.name" [disabled]="!editing()" name="name" />
                 </div>
                 <div class="form-group">
-                  <label>Apellido</label>
+                  <label>{{ i18n.t('profile.lastName') }}</label>
                   <input [(ngModel)]="form.lastName" [disabled]="!editing()" name="lastName" />
                 </div>
                 <div class="form-group full">
-                  <label>Correo electrónico</label>
+                  <label>{{ i18n.t('profile.email') }}</label>
                   <input [(ngModel)]="form.email" [disabled]="true" name="email" type="email" />
                 </div>
                 <div class="form-group">
-                  <label>Teléfono</label>
+                  <label>{{ i18n.t('profile.phone') }}</label>
                   <input [(ngModel)]="form.phone" [disabled]="!editing()" name="phone" />
                 </div>
                 <div class="form-group full">
-                  <label>Dirección</label>
+                  <label>{{ i18n.t('profile.address') }}</label>
                   <input [(ngModel)]="form.street" [disabled]="!editing()" name="street" />
                 </div>
                 <div class="form-group">
-                  <label>Distrito</label>
+                  <label>{{ i18n.t('profile.district') }}</label>
                   <input [(ngModel)]="form.district" [disabled]="!editing()" name="district" />
                 </div>
                 <div class="form-group">
-                  <label>Ciudad</label>
+                  <label>{{ i18n.t('profile.city') }}</label>
                   <input [(ngModel)]="form.city" [disabled]="!editing()" name="city" />
                 </div>
               </div>
 
               @if (editing()) {
                 <div class="form-actions">
-                  <button class="btn-cancel" (click)="cancelEdit()">Cancelar</button>
-                  <button class="btn-save" (click)="saveChanges()">Guardar cambios</button>
+                  <button class="btn-cancel" (click)="cancelEdit()">{{ i18n.t('profile.cancel') }}</button>
+                  <button class="btn-save" (click)="saveChanges()">{{ i18n.t('profile.save') }}</button>
                 </div>
               }
 
               @if (saved()) {
                 <div class="success-banner">
                   <span class="material-icon">check_circle</span>
-                  Cambios guardados correctamente.
+                  {{ i18n.t('profile.saved') }}
                 </div>
               }
             </div>
@@ -283,6 +284,7 @@ import { AuthService } from '../../application/auth.service';
 })
 export class ProfileComponent {
   private authSvc = inject(AuthService);
+  i18n = inject(TranslationService);
 
   editing = signal(false);
   saved = signal(false);
@@ -299,7 +301,7 @@ export class ProfileComponent {
 
   get initials(): string { return this.authSvc.currentUser()?.initials ?? 'U'; }
   get roleLabel(): string {
-    return this.authSvc.currentUser()?.role === 'owner' ? 'Propietario' : 'Inquilino';
+    return this.authSvc.currentUser()?.role === 'owner' ? this.i18n.t('sidebar.owner') : this.i18n.t('sidebar.tenant');
   }
 
   startEdit(): void {
