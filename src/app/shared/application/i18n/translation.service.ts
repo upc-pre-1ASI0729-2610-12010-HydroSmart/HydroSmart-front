@@ -1,5 +1,4 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 export type Language = 'es' | 'en';
 
@@ -23,7 +22,9 @@ export class TranslationService {
   }
 
   translate(key: string): string {
-    return this.translations[this.currentLang()]?.[key] ?? key;
+    // Read currentLang() to create reactive dependency
+    const lang = this.currentLang();
+    return this.translations[lang]?.[key] ?? key;
   }
 
   t(key: string): string {
