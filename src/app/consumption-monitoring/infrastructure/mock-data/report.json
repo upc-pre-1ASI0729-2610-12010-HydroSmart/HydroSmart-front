@@ -1,0 +1,23 @@
+{
+  "id": "rep-001",
+  "userId": "usr-001",
+  "period": "monthly",
+  "startDate": "2025-05-01",
+  "endDate": "2025-05-11",
+  "totalVolume": 8000,
+  "averageDailyVolume": 727,
+  "peakDay": "2025-05-06",
+  "generatedAt": "2025-05-11T15:00:00Z",
+  "estimatedCost": 45.30,
+  "deviceRanking": [
+    { "deviceId": "dev-001", "deviceName": "Medidor Principal", "volume": 3200, "percentage": 40, "rank": 1 },
+    { "deviceId": "dev-003", "deviceName": "Detector Cocina", "volume": 2400, "percentage": 30, "rank": 2 },
+    { "deviceId": "dev-002", "deviceName": "Sensor Jardín", "volume": 1600, "percentage": 20, "rank": 3 }
+  ],
+  "weeklyAverages": [
+    { "week": "Sem. 1 (01-07 May)", "average": 332 },
+    { "week": "Sem. 2 (08-11 May)", "average": 280 },
+    { "week": "Sem. 3 (proyectado)", "average": 265 },
+    { "week": "Sem. 4 (proyectado)", "average": 260 }
+  ]
+}
