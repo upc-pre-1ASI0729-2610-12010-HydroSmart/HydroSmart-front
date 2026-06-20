@@ -1,0 +1,317 @@
+[
+  {
+    "id": "dev-001",
+    "name": "Medidor 1A",
+    "type": "smart-meter",
+    "location": "Sala",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:32:00Z",
+    "installationDate": "2024-01-20T00:00:00Z",
+    "currentFlow": 1.2,
+    "totalConsumption": 2600,
+    "userId": "usr-001",
+    "unitId": "unit-001",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": true,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": true,
+      "sendMonthlyReports": true,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": true
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-002",
+    "name": "Detector 1A",
+    "type": "leak-detector",
+    "location": "Baño",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:30:00Z",
+    "installationDate": "2024-01-20T00:00:00Z",
+    "currentFlow": 0.0,
+    "totalConsumption": 2600,
+    "userId": "usr-001",
+    "unitId": "unit-001",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-003",
+    "name": "Medidor 1B",
+    "type": "smart-meter",
+    "location": "Sala",
+    "status": "warning",
+    "lastActiveAt": "2025-05-11T12:10:00Z",
+    "installationDate": "2024-02-05T00:00:00Z",
+    "currentFlow": 3.1,
+    "totalConsumption": 3750,
+    "userId": "usr-001",
+    "unitId": "unit-002",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": true,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": true,
+      "sendMonthlyReports": true,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": true
+    },
+    "alertHistory": [
+      {
+        "id": "ALT-001",
+        "type": "threshold",
+        "message": "Consumo mensual superó el límite de 6000 L",
+        "severity": "high",
+        "resolved": false,
+        "createdAt": "2025-05-10T08:00:00Z"
+      }
+    ]
+  },
+  {
+    "id": "dev-004",
+    "name": "Detector 1B",
+    "type": "leak-detector",
+    "location": "Cocina",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:00:00Z",
+    "installationDate": "2024-02-05T00:00:00Z",
+    "currentFlow": 0.0,
+    "totalConsumption": 3750,
+    "userId": "usr-001",
+    "unitId": "unit-002",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-005",
+    "name": "Medidor 2A",
+    "type": "smart-meter",
+    "location": "Sala",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:45:00Z",
+    "installationDate": "2024-03-01T00:00:00Z",
+    "currentFlow": 1.1,
+    "totalConsumption": 2400,
+    "userId": "usr-001",
+    "unitId": "unit-003",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": true,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": true,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-006",
+    "name": "Detector 2A",
+    "type": "leak-detector",
+    "location": "Baño",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:40:00Z",
+    "installationDate": "2024-03-01T00:00:00Z",
+    "currentFlow": 0.0,
+    "totalConsumption": 2400,
+    "userId": "usr-001",
+    "unitId": "unit-003",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": false,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-007",
+    "name": "Medidor 2B",
+    "type": "smart-meter",
+    "location": "Sala",
+    "status": "warning",
+    "lastActiveAt": "2025-05-11T13:20:00Z",
+    "installationDate": "2024-04-01T00:00:00Z",
+    "currentFlow": 2.8,
+    "totalConsumption": 4100,
+    "userId": "usr-001",
+    "unitId": "unit-004",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": true,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": true,
+      "sendMonthlyReports": true,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": true
+    },
+    "alertHistory": [
+      {
+        "id": "ALT-002",
+        "type": "threshold",
+        "message": "Consumo mensual superó el límite de 7000 L",
+        "severity": "high",
+        "resolved": false,
+        "createdAt": "2025-05-09T10:00:00Z"
+      }
+    ]
+  },
+  {
+    "id": "dev-008",
+    "name": "Detector 2B",
+    "type": "leak-detector",
+    "location": "Baño",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T13:00:00Z",
+    "installationDate": "2024-04-01T00:00:00Z",
+    "currentFlow": 0.3,
+    "totalConsumption": 4100,
+    "userId": "usr-001",
+    "unitId": "unit-004",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": [
+      {
+        "id": "ALT-003",
+        "type": "leak",
+        "message": "Posible fuga — flujo residual 0.3 L/min",
+        "severity": "medium",
+        "resolved": false,
+        "createdAt": "2025-05-11T09:00:00Z"
+      }
+    ]
+  },
+  {
+    "id": "dev-009",
+    "name": "Medidor 3A",
+    "type": "smart-meter",
+    "location": "Sala",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:50:00Z",
+    "installationDate": "2024-05-01T00:00:00Z",
+    "currentFlow": 1.5,
+    "totalConsumption": 3050,
+    "userId": "usr-001",
+    "unitId": "unit-005",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": true,
+      "trackMonthlyConsumption": true,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": true,
+      "sendMonthlyReports": true,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-010",
+    "name": "Detector 3A",
+    "type": "leak-detector",
+    "location": "Cocina",
+    "status": "active",
+    "lastActiveAt": "2025-05-11T14:48:00Z",
+    "installationDate": "2024-05-01T00:00:00Z",
+    "currentFlow": 0.0,
+    "totalConsumption": 3050,
+    "userId": "usr-001",
+    "unitId": "unit-005",
+    "preferences": {
+      "detectLeaks": true,
+      "trackDailyConsumption": false,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": true,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-011",
+    "name": "Medidor 3B",
+    "type": "smart-meter",
+    "location": "Sala",
+    "status": "inactive",
+    "lastActiveAt": "2025-04-30T18:00:00Z",
+    "installationDate": "2024-05-15T00:00:00Z",
+    "currentFlow": 0.0,
+    "totalConsumption": 0,
+    "userId": "usr-001",
+    "unitId": "unit-006",
+    "preferences": {
+      "detectLeaks": false,
+      "trackDailyConsumption": false,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": false,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  },
+  {
+    "id": "dev-012",
+    "name": "Detector 3B",
+    "type": "leak-detector",
+    "location": "Baño",
+    "status": "inactive",
+    "lastActiveAt": "2025-04-30T18:00:00Z",
+    "installationDate": "2024-05-15T00:00:00Z",
+    "currentFlow": 0.0,
+    "totalConsumption": 0,
+    "userId": "usr-001",
+    "unitId": "unit-006",
+    "preferences": {
+      "detectLeaks": false,
+      "trackDailyConsumption": false,
+      "trackMonthlyConsumption": false,
+      "sendAlertsOnAnomaly": false,
+      "sendWeeklyReports": false,
+      "sendMonthlyReports": false,
+      "enableEnergyTracking": false,
+      "alertOnHighPressure": false
+    },
+    "alertHistory": []
+  }
+]

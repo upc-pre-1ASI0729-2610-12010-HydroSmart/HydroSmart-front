@@ -1,0 +1,44 @@
+﻿[
+  {
+    "id": "alrt-001",
+    "userId": "usr-001",
+    "deviceId": "dev-002",
+    "type": "leak",
+    "title": "Posible fuga detectada",
+    "message": "Sensor Jardín detecta flujo residual continuo de 0.3 L/min. Revise la línea de riego.",
+    "severity": "high",
+    "status": "active",
+    "detectedAt": "2025-05-11T10:05:00Z",
+    "acknowledgedAt": null,
+    "resolvedAt": null,
+    "estimatedLoss": 14.4
+  },
+  {
+    "id": "alrt-002",
+    "userId": "usr-001",
+    "deviceId": "dev-001",
+    "type": "anomaly",
+    "title": "Consumo anómalo detectado",
+    "message": "El 06/05 el consumo fue de 920L, 3.3× el promedio diario de 279L.",
+    "severity": "critical",
+    "status": "acknowledged",
+    "detectedAt": "2025-05-06T07:00:00Z",
+    "acknowledgedAt": "2025-05-06T09:15:00Z",
+    "resolvedAt": null,
+    "estimatedLoss": 641
+  },
+  {
+    "id": "alrt-003",
+    "userId": "usr-001",
+    "deviceId": "dev-001",
+    "type": "threshold",
+    "title": "Meta mensual en riesgo",
+    "message": "Al ritmo actual, superarás tu meta de 7500L para fin de mes.",
+    "severity": "medium",
+    "status": "active",
+    "detectedAt": "2025-05-10T08:00:00Z",
+    "acknowledgedAt": null,
+    "resolvedAt": null,
+    "estimatedLoss": 0
+  }
+]

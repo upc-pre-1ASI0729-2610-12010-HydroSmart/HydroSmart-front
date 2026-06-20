@@ -1,0 +1,27 @@
+[
+  {
+    "id": "tc-001",
+    "adminUserId": "usr-001",
+    "period": "2025-05",
+    "unit": {
+      "id": "unit-001",
+      "buildingId": "bld-001",
+      "unitNumber": "3B",
+      "floor": 3,
+      "tenantUserId": "usr-002",
+      "allowance": {
+        "monthlyLimitLiters": 6000,
+        "penaltyPerExcessLiter": 0.008,
+        "currency": "PEN"
+      }
+    },
+    "tenant": {
+      "id": "usr-002",
+      "unitId": "unit-001",
+      "name": "Arianna Flores",
+      "email": "arianna.flores@email.com",
+      "phone": "+51 912 345 678",
+      "currentMonthConsumptionLiters": 7200
+    }
+  }
+]

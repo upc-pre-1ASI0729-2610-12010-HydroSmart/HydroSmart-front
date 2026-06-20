@@ -1,0 +1,128 @@
+[
+  {
+    "id": "usr-001",
+    "name": "Carlos",
+    "lastName": "Mendoza",
+    "email": "admin@begonias.com.pe",
+    "password": "admin123",
+    "phone": "+51 987 654 321",
+    "role": "BUILDING_ADMIN",
+    "address": {
+      "street": "Av. Javier Prado 1234",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-01-15T00:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "usr-002",
+    "name": "Arianna",
+    "lastName": "Flores",
+    "email": "arianna.flores@begonias.com.pe",
+    "password": "tenant123",
+    "phone": "+51 912 345 678",
+    "role": "TENANT",
+    "address": {
+      "street": "Av. Javier Prado 1234, Dpto 1A",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-03-10T00:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "usr-003",
+    "name": "Juan",
+    "lastName": "Pérez",
+    "email": "juan.perez@begonias.com.pe",
+    "password": "tenant123",
+    "phone": "+51 913 456 789",
+    "role": "TENANT",
+    "address": {
+      "street": "Av. Javier Prado 1234, Dpto 1B",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-03-15T00:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "usr-004",
+    "name": "María",
+    "lastName": "García",
+    "email": "maria.garcia@begonias.com.pe",
+    "password": "tenant123",
+    "phone": "+51 914 567 890",
+    "role": "TENANT",
+    "address": {
+      "street": "Av. Javier Prado 1234, Dpto 2A",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-04-01T00:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "usr-005",
+    "name": "Luis",
+    "lastName": "Torres",
+    "email": "luis.torres@begonias.com.pe",
+    "password": "tenant123",
+    "phone": "+51 915 678 901",
+    "role": "TENANT",
+    "address": {
+      "street": "Av. Javier Prado 1234, Dpto 2B",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-04-10T00:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "usr-006",
+    "name": "Sofía",
+    "lastName": "Quispe",
+    "email": "sofia.quispe@begonias.com.pe",
+    "password": "tenant123",
+    "phone": "+51 916 789 012",
+    "role": "TENANT",
+    "address": {
+      "street": "Av. Javier Prado 1234, Dpto 3A",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-05-01T00:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "usr-007",
+    "name": "Diego",
+    "lastName": "Ramírez",
+    "email": "diego.ramirez@begonias.com.pe",
+    "password": "tenant123",
+    "phone": "+51 917 890 123",
+    "role": "TENANT",
+    "address": {
+      "street": "Av. Javier Prado 1234",
+      "city": "Lima",
+      "district": "San Isidro",
+      "country": "Perú"
+    },
+    "avatarUrl": "",
+    "createdAt": "2024-05-20T00:00:00Z",
+    "isActive": true
+  }
+]

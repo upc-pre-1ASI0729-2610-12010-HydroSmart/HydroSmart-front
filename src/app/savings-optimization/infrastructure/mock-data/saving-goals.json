@@ -1,0 +1,22 @@
+[
+  {
+    "id": "goal-001",
+    "userId": "usr-001",
+    "name": "Meta Mayo 2025",
+    "targetVolume": 7500,
+    "currentVolume": 8000,
+    "period": "monthly",
+    "startDate": "2025-05-01T00:00:00Z",
+    "endDate": "2025-05-31T23:59:59Z",
+    "status": "active",
+    "budget": {
+      "amount": 40.00,
+      "currency": "PEN"
+    },
+    "recommendations": [
+      "Reducir tiempo de ducha en 2 minutos puede ahorrar hasta 20L diarios.",
+      "Riego nocturno reduce la evaporación hasta en 30%.",
+      "Revisar la fuga detectada en el jardín para recuperar el objetivo."
+    ]
+  }
+]

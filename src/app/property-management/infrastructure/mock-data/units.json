@@ -1,0 +1,62 @@
+[
+  {
+    "id": "unit-001",
+    "buildingId": "bld-001",
+    "unitNumber": "1A",
+    "floor": 1,
+    "monthlyLimitLiters": 6000,
+    "penaltyPerExcessLiter": 0.008,
+    "tenantUserId": "usr-002",
+    "currentConsumptionLiters": 5200
+  },
+  {
+    "id": "unit-002",
+    "buildingId": "bld-001",
+    "unitNumber": "1B",
+    "floor": 1,
+    "monthlyLimitLiters": 6000,
+    "penaltyPerExcessLiter": 0.008,
+    "tenantUserId": "usr-003",
+    "currentConsumptionLiters": 7500
+  },
+  {
+    "id": "unit-003",
+    "buildingId": "bld-001",
+    "unitNumber": "2A",
+    "floor": 2,
+    "monthlyLimitLiters": 7000,
+    "penaltyPerExcessLiter": 0.008,
+    "tenantUserId": "usr-004",
+    "currentConsumptionLiters": 4800
+  },
+  {
+    "id": "unit-004",
+    "buildingId": "bld-001",
+    "unitNumber": "2B",
+    "floor": 2,
+    "monthlyLimitLiters": 7000,
+    "penaltyPerExcessLiter": 0.008,
+    "tenantUserId": "usr-005",
+    "currentConsumptionLiters": 8200
+  },
+  {
+    "id": "unit-005",
+    "buildingId": "bld-001",
+    "unitNumber": "3A",
+    "floor": 3,
+    "monthlyLimitLiters": 8000,
+    "penaltyPerExcessLiter": 0.008,
+    "tenantUserId": "usr-006",
+    "currentConsumptionLiters": 6100
+  },
+  {
+    "id": "unit-006",
+    "buildingId": "bld-001",
+    "unitNumber": "3B",
+    "floor": 3,
+    "monthlyLimitLiters": 8000,
+    "penaltyPerExcessLiter": 0.008,
+    "tenantUserId": null,
+    "currentConsumptionLiters": 0
+  }
+]

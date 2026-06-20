@@ -1,0 +1,10 @@
+[
+  {
+    "id": "bld-001",
+    "name": "Edificio Begonias",
+    "address": "Av. Javier Prado 1234",
+    "district": "San Isidro",
+    "adminUserId": "usr-001",
+    "createdAt": "2024-01-15T00:00:00Z"
+  }
+]
