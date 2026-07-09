@@ -212,5 +212,17 @@
 
   "notifications.title": "Notificaciones",
   "notifications.markAllRead": "Marcar todo como leído",
-  "notifications.empty": "No hay notificaciones"
+  "notifications.empty": "No hay notificaciones",
+  "dashboard.irrigationRecommended": "Riego recomendado",
+  "dashboard.doNotIrrigate": "No regar hoy",
+  "dashboard.loadingWeather": "Consultando el clima...",
+  "dashboard.weatherError": "No se pudo obtener la recomendación de riego",
+  "dashboard.weatherSource": "Datos en tiempo real vía OpenWeather",
+  "dashboard.resolveAlert": "Resolver",
+  "dashboard.alertResolved": "Alerta resuelta. Se envió una notificación por correo.",
+  "profile.nameRequired": "El nombre y el apellido son obligatorios.",
+  "profile.phoneInvalid": "El teléfono debe contener entre 6 y 15 dígitos.",
+  "dashboard.viewMonthly": "Mensual",
+  "dashboard.viewWeekly": "Semanal",
+  "dashboard.weeklyAvg": "Consumo Semanal"
 }

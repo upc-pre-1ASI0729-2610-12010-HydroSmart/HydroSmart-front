@@ -1,5 +1,5 @@
 import { Component, inject, AfterViewInit, OnDestroy,
-  ViewChild, ElementRef, OnInit, effect } from '@angular/core';
+  ViewChild, ElementRef, OnInit, effect, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
@@ -12,6 +12,7 @@ import { BuildingContextService } from '../../../shared/application/building-con
 import { ConsumptionMonitoringService } from '../../application/services/consumption-monitoring.service';
 import { IncidentDetectionService } from '../../../incident-detection/application/services/incident-detection.service';
 import { SavingsOptimizationService } from '../../../savings-optimization/application/services/savings-optimization.service';
+import { IrrigationService } from '../../application/services/irrigation.service';
 
 Chart.register(...registerables);
 
@@ -28,7 +29,7 @@ Chart.register(...registerables);
         <div class="page-body">
           <!-- KPI Cards -->
           <div class="kpi-grid">
-            <div class="kpi-card">
+            <div class="kpi-card" routerLink="/reports" title="Consumo total acumulado del mes. Clic para ver el detalle en reportes.">
               <div class="kpi-icon blue">
                 <span class="material-icon">water_drop</span>
               </div>
@@ -38,7 +39,7 @@ Chart.register(...registerables);
               </div>
             </div>
 
-            <div class="kpi-card">
+            <div class="kpi-card" routerLink="/reports" title="Variación porcentual respecto al mes anterior. Clic para ver el detalle.">
               <div class="kpi-icon" [class.green]="(summary?.variationPercent ?? 0) <= 0" [class.red]="(summary?.variationPercent ?? 0) > 0">
                 <span class="material-icon">{{ (summary?.variationPercent ?? 0) <= 0 ? 'trending_down' : 'trending_up' }}</span>
               </div>
@@ -52,7 +53,7 @@ Chart.register(...registerables);
               </div>
             </div>
 
-            <div class="kpi-card">
+            <div class="kpi-card" routerLink="/devices" title="Cantidad de dispositivos IoT activos. Clic para gestionar dispositivos.">
               <div class="kpi-icon teal">
                 <span class="material-icon">sensors</span>
               </div>
@@ -62,7 +63,7 @@ Chart.register(...registerables);
               </div>
             </div>
 
-            <div class="kpi-card">
+            <div class="kpi-card" routerLink="/reports" title="Costo estimado del consumo a la fecha. Clic para ver el detalle.">
               <div class="kpi-icon orange">
                 <span class="material-icon">payments</span>
               </div>
@@ -72,12 +73,12 @@ Chart.register(...registerables);
               </div>
             </div>
 
-            <div class="kpi-card">
+            <div class="kpi-card" routerLink="/reports" title="Consumo registrado hoy. Clic para ver el detalle en reportes.">
               <div class="kpi-icon green">
                 <span class="material-icon">today</span>
               </div>
               <div class="kpi-data">
-                <span class="kpi-value">{{ summary?.currentDayVolumeLiters }} L</span>
+                <span class="kpi-value">{{ summary?.currentDayVolumeLiters | number:'1.0-0' }} L</span>
                 <span class="kpi-label">{{ i18n.t('dashboard.todayConsumption') }}</span>
               </div>
             </div>
@@ -87,8 +88,11 @@ Chart.register(...registerables);
           <div class="charts-row">
             <div class="chart-card wide">
               <div class="chart-header">
-                <h3>{{ i18n.t('dashboard.dailyConsumption') }}</h3>
-                <span class="chart-period">{{ i18n.t('dashboard.may2025') }}</span>
+                <h3>{{ chartView() === 'monthly' ? i18n.t('dashboard.dailyConsumption') : i18n.t('dashboard.weeklyAvg') }}</h3>
+                <div class="chart-toggle">
+                  <button class="toggle-btn" [class.active]="chartView() === 'monthly'" (click)="setChartView('monthly')">{{ i18n.t('dashboard.viewMonthly') }}</button>
+                  <button class="toggle-btn" [class.active]="chartView() === 'weekly'" (click)="setChartView('weekly')">{{ i18n.t('dashboard.viewWeekly') }}</button>
+                </div>
               </div>
               <div class="chart-wrap"><canvas #lineChart></canvas></div>
             </div>
@@ -108,6 +112,46 @@ Chart.register(...registerables);
             </div>
           </div>
 
+          <!-- Weather-based irrigation widget (servicio externo OpenWeather) -->
+          <div class="weather-widget" [class.irrigate]="irrigationSvc.recommendation()?.shouldIrrigate" [class.no-irrigate]="irrigationSvc.recommendation() && !irrigationSvc.recommendation()!.shouldIrrigate">
+            @if (irrigationSvc.loading()) {
+              <div class="weather-loading">
+                <span class="material-icon spin">sync</span>
+                <span>Consultando el clima...</span>
+              </div>
+            } @else if (irrigationSvc.recommendation(); as rec) {
+              <div class="weather-content">
+                <div class="weather-icon">
+                  <span class="material-icon">{{ rec.shouldIrrigate ? 'water_drop' : 'cloud' }}</span>
+                </div>
+                <div class="weather-info">
+                  <div class="weather-title">{{ rec.shouldIrrigate ? 'Riego recomendado' : 'No regar hoy' }}</div>
+                  <div class="weather-detail">{{ rec.recommendation }}</div>
+                </div>
+                <div class="weather-stats">
+                  <div class="wstat">
+                    <span class="wstat-value">{{ rec.temperatureC }}°C</span>
+                    <span class="wstat-label">Temp.</span>
+                  </div>
+                  <div class="wstat">
+                    <span class="wstat-value">{{ rec.rainMmNext24h }} mm</span>
+                    <span class="wstat-label">Lluvia 24h</span>
+                  </div>
+                  <div class="wstat">
+                    <span class="wstat-value capitalize">{{ rec.weatherCondition }}</span>
+                    <span class="wstat-label">Clima</span>
+                  </div>
+                </div>
+              </div>
+              <div class="weather-source">Datos en tiempo real vía OpenWeather</div>
+            } @else if (irrigationSvc.error()) {
+              <div class="weather-error">
+                <span class="material-icon">error_outline</span>
+                <span>{{ irrigationSvc.error() }}</span>
+              </div>
+            }
+          </div>
+
           <!-- Bottom Row -->
           <div class="bottom-row">
             <div class="card alerts-card">
@@ -118,12 +162,15 @@ Chart.register(...registerables);
                 }
               </div>
               @for (incident of incidentSvc.activeIncidents().slice(0, 3); track incident.id) {
-                <div class="alert-item" [class]="'sev-' + incident.severity">
+                <div class="alert-item" [class]="'sev-' + incident.severity" routerLink="/reports" title="Clic para ver el detalle del consumo">
                   <div class="alert-sev-bar"></div>
                   <div class="alert-body">
                     <div class="alert-title">{{ incident.title }}</div>
                     <div class="alert-msg">{{ incident.message }}</div>
                   </div>
+                  @if (isAdmin) {
+                    <button class="alert-resolve-btn" (click)="resolveAlert(incident.id); $event.stopPropagation()">{{ i18n.t('dashboard.resolveAlert') }}</button>
+                  }
                 </div>
               } @empty {
                 <div class="empty-alerts">
@@ -213,6 +260,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly monitoringSvc = inject(ConsumptionMonitoringService);
   protected readonly incidentSvc = inject(IncidentDetectionService);
   protected readonly savingsSvc = inject(SavingsOptimizationService);
+  protected readonly irrigationSvc = inject(IrrigationService);
   private readonly authSvc = inject(AuthService);
   private readonly buildingCtx = inject(BuildingContextService);
   i18n = inject(TranslationService);
@@ -220,8 +268,23 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private lineChartInstance?: Chart;
   private donutChartInstance?: Chart;
   chartsReady = false;
+  chartView = signal<'monthly' | 'weekly'>('monthly');
 
   get summary() { return this.monitoringSvc.summary(); }
+
+  get currentMonthLabel(): string {
+    const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const now = new Date();
+    return `${months[now.getMonth()]} ${now.getFullYear()}`;
+  }
+
+  get isAdmin(): boolean {
+    return this.authSvc.currentUser()?.role === 'BUILDING_ADMIN';
+  }
+
+  resolveAlert(incidentId: string): void {
+    this.incidentSvc.resolveIncident(incidentId, 'Resuelto desde el dashboard');
+  }
 
   get greeting(): string {
     const h = new Date().getHours();
@@ -253,32 +316,37 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     // Actualiza el gráfico cuando cambia el summary (Pedido 4-B)
+    // Reactivo al summary, al reporte y al toggle de vista (mensual/semanal)
     effect(() => {
       const s = this.monitoringSvc.summary();
-      if (!s || !this.chartsReady) return;
-      if (this.lineChartInstance) {
-        this.lineChartInstance.data.labels = s.dailyLabels;
-        this.lineChartInstance.data.datasets[0].data = s.dailyValues;
-        this.lineChartInstance.update();
-      }
+      const r = this.monitoringSvc.report();
+      const view = this.chartView();
+      if (!this.chartsReady || !this.lineChartInstance) return;
+      const data = this.getChartData();
+      this.lineChartInstance.data.labels = data.labels;
+      this.lineChartInstance.data.datasets[0].data = data.values;
+      this.lineChartInstance.update();
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const user = this.authSvc.currentUser();
     const userId = user?.id ?? 'usr-001';
     const role = user?.role;
 
     if (role === 'BUILDING_ADMIN') {
-      this.monitoringSvc.initialize('usr-001');
+      // Admin: cargar unidades del header (también al restaurar sesión) + data del edificio
+      this.buildingCtx.loadUnits('1').catch(() => {});
+      await this.monitoringSvc.initialize('usr-001');
       this.incidentSvc.initialize('usr-001');
       this.savingsSvc.initialize('usr-001');
     } else {
-      const unit = this.buildingCtx.getUnitForTenant(userId);
-      if (unit) {
-        this.monitoringSvc.initializeForUnit('usr-001', unit.id, unit.currentConsumptionLiters);
+      // Tenant: obtener SU unidad vía /units/me y cargar su data (no endpoints admin-only)
+      const myUnit = await this.buildingCtx.loadMyUnit();
+      if (myUnit) {
+        await this.monitoringSvc.initializeForUnit('usr-001', myUnit.id, myUnit.currentConsumptionLiters);
       } else {
-        this.monitoringSvc.initialize('usr-001');
+        await this.monitoringSvc.initialize('usr-001');
       }
       this.incidentSvc.initialize(userId);
       this.savingsSvc.initialize(userId);
@@ -286,6 +354,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const totalLiters = this.monitoringSvc.summary()?.totalVolumeLiters ?? 0;
     this.savingsSvc.evaluateWithCurrentConsumption(totalLiters);
+
+    // Cargar recomendacion de riego basada en el clima (servicio externo OpenWeather)
+    this.irrigationSvc.loadRecommendation();
   }
 
   ngAfterViewInit(): void {
@@ -299,14 +370,27 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.donutChartInstance?.destroy();
   }
 
-  private buildLineChart(): void {
+  setChartView(view: 'monthly' | 'weekly'): void {
+    this.chartView.set(view);
+  }
+
+  private getChartData(): { labels: string[]; values: number[] } {
+    if (this.chartView() === 'weekly') {
+      const weekly = this.monitoringSvc.report()?.weeklyAverages ?? [];
+      return { labels: weekly.map(w => w.week), values: weekly.map(w => w.averageLiters) };
+    }
     const s = this.monitoringSvc.summary();
+    return { labels: s?.dailyLabels ?? [], values: s?.dailyValues ?? [] };
+  }
+
+  private buildLineChart(): void {
+    const data = this.getChartData();
     this.lineChartInstance = new Chart(this.lineChartRef.nativeElement, {
       type: 'line',
       data: {
-        labels: s?.dailyLabels ?? [],
+        labels: data.labels,
         datasets: [{
-          label: 'Litros', data: s?.dailyValues ?? [],
+          label: 'Litros', data: data.values,
           borderColor: '#4AB787', backgroundColor: 'rgba(74,183,135,0.12)',
           borderWidth: 2.5, pointBackgroundColor: '#4AB787',
           pointRadius: 4, fill: true, tension: 0.4

@@ -82,6 +82,34 @@ export class BuildingContextService {
     if (bid) await this.loadUnits(bid);
   }
 
+  /** Endpoint tenant-safe: obtiene la unidad del usuario autenticado (GET /units/me). */
+  async loadMyUnit(): Promise<UnitDisplay | null> {
+    try {
+      const res = await firstValueFrom(
+        this.http.get<ApiResponse<UnitDTO>>(`${environment.apiUrl}/units/me`)
+      );
+      if (res.success && res.data) {
+        const u: UnitDisplay = {
+          id: String(res.data.id),
+          buildingId: String(res.data.buildingId),
+          unitNumber: res.data.unitNumber,
+          floor: res.data.floor,
+          monthlyLimitLiters: res.data.monthlyLimitLiters ?? 8000,
+          penaltyPerExcessLiter: res.data.penaltyPerExcessLiter ?? 0.008,
+          tenantUserId: res.data.tenantUserId != null ? String(res.data.tenantUserId) : null,
+          currentConsumptionLiters: res.data.currentConsumptionLiters ?? 0,
+          tenantName: res.data.tenantName ?? ''
+        };
+        const current = this._unitsSignal().filter(x => x.id !== u.id);
+        this._unitsSignal.set([...current, u]);
+        return u;
+      }
+    } catch (err) {
+      console.error('Error loading my unit:', err);
+    }
+    return null;
+  }
+
   getUnitForTenant(tenantUserId: string): UnitDisplay | null {
     return this._unitsSignal().find(u => u.tenantUserId === tenantUserId) ?? null;
   }

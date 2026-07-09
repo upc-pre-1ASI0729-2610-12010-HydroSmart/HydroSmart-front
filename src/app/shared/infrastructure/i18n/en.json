@@ -212,5 +212,17 @@
 
   "notifications.title": "Notifications",
   "notifications.markAllRead": "Mark all as read",
-  "notifications.empty": "No notifications"
+  "notifications.empty": "No notifications",
+  "dashboard.irrigationRecommended": "Irrigation recommended",
+  "dashboard.doNotIrrigate": "Do not irrigate today",
+  "dashboard.loadingWeather": "Checking weather...",
+  "dashboard.weatherError": "Could not get irrigation recommendation",
+  "dashboard.weatherSource": "Real-time data via OpenWeather",
+  "dashboard.resolveAlert": "Resolve",
+  "dashboard.alertResolved": "Alert resolved. An email notification was sent.",
+  "profile.nameRequired": "Name and last name are required.",
+  "profile.phoneInvalid": "Phone must contain between 6 and 15 digits.",
+  "dashboard.viewMonthly": "Monthly",
+  "dashboard.viewWeekly": "Weekly",
+  "dashboard.weeklyAvg": "Weekly Consumption"
 }

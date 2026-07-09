@@ -272,7 +272,12 @@ export class LoginComponent {
       const result = await this.auth.login({ email: this.email, password: this.password });
 
       if (result.success) {
-        await this.buildingCtx.loadUnits('1');
+        // Solo el admin necesita la lista de unidades del edificio; el tenant
+        // obtiene su unidad vía /units/me en el dashboard.
+        const role = this.auth.currentUser()?.role;
+        if (role === 'BUILDING_ADMIN') {
+          await this.buildingCtx.loadUnits('1');
+        }
         this.router.navigate(['/dashboard']);
       } else {
         this.errorMsg.set(result.error ?? this.i18n.t('login.loginError'));

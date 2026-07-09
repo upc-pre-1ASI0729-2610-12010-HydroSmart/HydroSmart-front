@@ -365,6 +365,11 @@ export class UnitsComponent {
   private propertyHttp = inject(PropertyHttpService);
   private router = inject(Router);
 
+  ngOnInit(): void {
+    // Cargar las unidades al entrar a la vista (también en navegación directa / refresh)
+    this.buildingCtx.loadUnits('1').catch(err => console.error('Error loading units:', err));
+  }
+
   // Assign modal
   showAssignModal = signal(false);
   assignTargetUnit = signal<UnitDisplay | null>(null);
