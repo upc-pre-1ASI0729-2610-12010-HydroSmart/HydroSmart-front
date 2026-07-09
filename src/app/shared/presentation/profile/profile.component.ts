@@ -101,6 +101,13 @@ import { TranslationService } from '../../application/i18n/translation.service';
                   {{ i18n.t('profile.saved') }}
                 </div>
               }
+
+              @if (editing() && validationError()) {
+                <div class="error-banner">
+                  <span class="material-icon">error</span>
+                  {{ validationError() }}
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -279,6 +286,24 @@ import { TranslationService } from '../../application/i18n/translation.service';
       font-size: 20px;
     }
 
+    .error-banner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #FDECEA;
+      color: #c0392b;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 16px;
+    }
+    .error-banner .material-icon {
+      font-family: 'Material Icons', sans-serif;
+      font-style: normal;
+      font-size: 20px;
+    }
+
     .material-icon { font-family: 'Material Icons', sans-serif; font-style: normal; }
   `]
 })
@@ -288,6 +313,7 @@ export class ProfileComponent {
 
   editing = signal(false);
   saved = signal(false);
+  validationError = signal('');
 
   form = {
     name: this.authSvc.currentUser()?.name ?? '',
@@ -323,6 +349,16 @@ export class ProfileComponent {
   }
 
   saveChanges(): void {
+    this.validationError.set('');
+    if (!this.form.name.trim() || !this.form.lastName.trim()) {
+      this.validationError.set(this.i18n.t('profile.nameRequired'));
+      return;
+    }
+    const phoneClean = (this.form.phone || '').replace(/[\s\-+()]/g, '');
+    if (phoneClean && !/^\d{6,15}$/.test(phoneClean)) {
+      this.validationError.set(this.i18n.t('profile.phoneInvalid'));
+      return;
+    }
     this.authSvc.updateCurrentUser({
       name: this.form.name,
       lastName: this.form.lastName,

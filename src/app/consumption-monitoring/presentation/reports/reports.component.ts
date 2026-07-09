@@ -40,7 +40,7 @@ Chart.register(...registerables);
             </div>
             <div class="summary-item">
               <span class="s-label">{{ i18n.t('reports.peakDay') }}</span>
-              <span class="s-value">{{ report?.peakDay ? formatPeakDay(report!.peakDay) : '—' }}</span>
+              <span class="s-value">{{ report?.peakDay ? formatPeakDay(report!.peakDay) : '—' }}{{ report?.peakDayVolumeLiters ? ' (' + (report!.peakDayVolumeLiters! | number:'1.0-0') + ' L)' : '' }}</span>
             </div>
           </div>
 
@@ -247,17 +247,19 @@ export class ReportsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const user = this.authSvc.currentUser();
     const role = user?.role;
     if (role === 'BUILDING_ADMIN') {
-      this.monitoringSvc.initialize('usr-001');
+      this.buildingCtx.loadUnits('1').catch(() => {});
+      await this.monitoringSvc.initialize('usr-001');
     } else {
-      const unit = this.buildingCtx.getUnitForTenant(user?.id ?? '');
-      if (unit) {
-        this.monitoringSvc.initializeForUnit('usr-001', unit.id, unit.currentConsumptionLiters);
+      // Tenant: obtener SU unidad vía /units/me y cargar su reporte de unidad
+      const myUnit = await this.buildingCtx.loadMyUnit();
+      if (myUnit) {
+        await this.monitoringSvc.initializeForUnit('usr-001', myUnit.id, myUnit.currentConsumptionLiters);
       } else {
-        this.monitoringSvc.initialize('usr-001');
+        await this.monitoringSvc.initialize('usr-001');
       }
     }
   }

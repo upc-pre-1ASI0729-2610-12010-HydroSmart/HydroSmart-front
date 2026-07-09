@@ -43,6 +43,7 @@ interface ReportDTO {
   totalVolume: number;
   averageDailyVolume: number;
   peakDay: string;
+  peakDayVolume?: number;
   estimatedCost: number;
   deviceRanking: { sensorId: number; sensorName: string; volume: number; percentage: number; rank: number }[];
   weeklyAverages: { week: string; average: number }[];
@@ -72,9 +73,8 @@ export class HttpConsumptionSessionRepository extends ConsumptionSessionReposito
       this.loadSummary(`${this.api}/units/${numId}/summary`, `unit-${numId}`),
       this.loadSensors(`${this.api}/sensors?unitId=${numId}`),
     ]);
-    if (buildingId) {
-      await this.loadReport(this.numericId(buildingId), new Date().toISOString().slice(0, 7));
-    }
+    // Siempre cargar el reporte de la UNIDAD (endpoint tenant-safe, válido para admin y tenant)
+    await this.loadUnitReport(numId, new Date().toISOString().slice(0, 7));
   }
 
   findCurrentByUserId(_userId: string): ConsumptionSession | null {
@@ -162,6 +162,22 @@ export class HttpConsumptionSessionRepository extends ConsumptionSessionReposito
     }
   }
 
+  /** Reporte mensual de una unidad (endpoint tenant-safe). */
+  private async loadUnitReport(unitId: number, period: string): Promise<void> {
+    try {
+      const res = await firstValueFrom(
+        this.http.get<ApiResponse<ReportDTO>>(
+          `${this.api}/reports/unit/${unitId}/monthly?period=${period}`,
+        ),
+      );
+      if (res.success && res.data) {
+        this._reportCache.set(this.mapToReport(res.data));
+      }
+    } catch (err) {
+      console.error('Error loading unit report:', err);
+    }
+  }
+
   private mapToSession(dto: ConsumptionSummaryDTO, sessionId: string): ConsumptionSession {
     const today = new Date();
     const year = today.getFullYear();
@@ -238,6 +254,7 @@ export class HttpConsumptionSessionRepository extends ConsumptionSessionReposito
       totalVolumeLiters: dto.totalVolume,
       averageDailyVolumeLiters: dto.averageDailyVolume,
       peakDay: dto.peakDay,
+      peakDayVolumeLiters: dto.peakDayVolume,
       deviceRanking: dto.deviceRanking.map((d) => ({
         deviceId: String(d.sensorId),
         deviceName: d.sensorName,

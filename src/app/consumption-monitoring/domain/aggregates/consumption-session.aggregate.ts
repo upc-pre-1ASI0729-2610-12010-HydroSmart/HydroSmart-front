@@ -48,6 +48,7 @@ export interface ConsumptionReport {
   totalVolumeLiters: number;
   averageDailyVolumeLiters: number;
   peakDay: string;
+  peakDayVolumeLiters?: number;
   deviceRanking: DeviceRankingEntry[];
   weeklyAverages: WeeklyAverage[];
   generatedAt: string;
